@@ -1,0 +1,25 @@
+# Incident Report: EC2 Compromise
+
+## Executive Summary
+On 20 October 2026, the EC2 instance `Cafe Web Server` was compromised due to an overly permissive Security Group allowing SSH access from the internet (`0.0.0.0/0`). An unauthorized user (`chaos-user`) was created, and the website was defaced.
+
+## Timeline of Events
+- **13:06 UTC:** Attacker (`44.252.71.199`) logs in via SSH.
+- **13:13 UTC:** Attacker creates `chaos-user` and begins defacing the site.
+- **13:15 UTC:** Admin notices the defacement and begins investigation.
+- **13:30 UTC:** Logs analyzed via CloudTrail and local `aureport`.
+- **14:00 UTC:** Rogue user removed, SSH hardened, Security Group restricted.
+- **14:15 UTC:** Defaced image restored from backup.
+
+## Indicators of Compromise (IoCs)
+- **Attacker IP:** `44.252.71.199`
+- **Rogue User:** `chaos-user`
+- **S3 Bucket:** `monitoring1880`
+
+## Remediation Steps
+1. Killed the rogue process (`sudo kill -9 4246`).
+2. Deleted the rogue user (`sudo userdel -r chaos-user`).
+3. Disabled SSH password authentication.
+4. Restricted Security Group inbound rules to the admin IP only.
+5. Deleted the unauthorized IAM user `chaos`.
+6. Restored the defaced image: `sudo mv Coffee-and-Pastries.backup Coffee-and-Pastries.jpg`.
