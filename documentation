@@ -1,0 +1,29 @@
+What Was Built
+Component	Purpose
+CloudTrail Trail	Multi-region trail monitor for audit logging
+Athena Table	SQL-based log analysis for forensics
+EC2 Instance	Compromised server requiring remediation
+IAM Cleanup	Removing unauthorized user chaos
+The Attack Scenario
+Vulnerability: WebSecurityGroup allowed SSH (Port 22) from 0.0.0.0/0.
+
+Compromise: Attacker (44.252.71.199) connected via SSH and created a backdoor user chaos-user.
+
+Impact: The website was defaced (image replaced).
+
+Detection: CloudTrail logs and local aureport logs revealed the unauthorized access.
+
+Remediation: The rogue user was killed/deleted, SSH was hardened, the Security Group was restricted, and the IAM user was deleted.
+
+Recovery: The defaced website image was restored from backup.
+
+Security Design (Remediation)
+Least Privilege: SSH restricted to specific IP (102.254.46.3/32).
+
+Hardening: PasswordAuthentication disabled in sshd_config.
+
+Audit: CloudTrail logs analyzed via Athena for forensic evidence.
+
+Cleanup: Unauthorized IAM user chaos deleted.
+
+Recovery: Defaced image restored using sudo mv Coffee-and-Pastries.backup Coffee-and-Pastries.jpg.
